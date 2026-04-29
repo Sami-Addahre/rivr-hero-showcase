@@ -24,11 +24,11 @@ function IstitutiPage() {
   const [typeId, setTypeId] = useState<string>("all");
 
   const typeName = (s: School) =>
-    typeof s.type === "object" ? s.type?.name : types.find((t) => t.id === s.type)?.name;
+    typeof s.type === "object" ? s.type?.name : types.find((t: SchoolType) => t.id === s.type)?.name;
 
   const filtered = useMemo(() => {
     const ql = q.trim().toLowerCase();
-    return schools.filter((s) => {
+    return (schools as School[]).filter((s: School) => {
       const t = typeof s.type === "object" ? s.type?.id : s.type;
       if (typeId !== "all" && t !== typeId) return false;
       if (!ql) return true;
@@ -66,7 +66,7 @@ function IstitutiPage() {
           <div className="pop-card p-6 text-center">Nessuna scuola trovata.</div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map((s, i) => (
+            {filtered.map((s: School, i: number) => (
               <SchoolCard key={s.id} s={s} typeName={typeName(s)} colorIdx={i} />
             ))}
           </div>
