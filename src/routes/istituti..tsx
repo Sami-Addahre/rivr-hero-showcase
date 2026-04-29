@@ -6,7 +6,7 @@ import { lazy, Suspense } from "react";
 
 const SchoolsMap = lazy(() => import("@/components/SchoolsMap"));
 
-export const Route = createFileRoute("/istituti/$id")({
+export const Route = createFileRoute("/istituti/")({
   component: SchoolDetail,
   loader: async ({ params }) => {
     try {

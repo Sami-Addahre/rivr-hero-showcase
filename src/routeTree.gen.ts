@@ -9,9 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OpendayRouteImport } from './routes/openday'
+import { Route as MappaRouteImport } from './routes/mappa'
 import { Route as IstitutiRouteImport } from './routes/istituti'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as IstitutiRouteImport } from './routes/istituti.'
 
+const OpendayRoute = OpendayRouteImport.update({
+  id: '/openday',
+  path: '/openday',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MappaRoute = MappaRouteImport.update({
+  id: '/mappa',
+  path: '/mappa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IstitutiRoute = IstitutiRouteImport.update({
   id: '/istituti',
   path: '/istituti',
@@ -22,35 +35,64 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IstitutiRoute = IstitutiRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IstitutiRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/istituti': typeof IstitutiRoute
+  '/istituti': typeof IstitutiRouteWithChildren
+  '/mappa': typeof MappaRoute
+  '/openday': typeof OpendayRoute
+  '/istituti/': typeof IstitutiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mappa': typeof MappaRoute
+  '/openday': typeof OpendayRoute
   '/istituti': typeof IstitutiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/istituti': typeof IstitutiRoute
+  '/istituti': typeof IstitutiRouteWithChildren
+  '/mappa': typeof MappaRoute
+  '/openday': typeof OpendayRoute
+  '/istituti/': typeof IstitutiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/istituti'
+  fullPaths: '/' | '/istituti' | '/mappa' | '/openday' | '/istituti/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/istituti'
-  id: '__root__' | '/' | '/istituti'
+  to: '/' | '/mappa' | '/openday' | '/istituti'
+  id: '__root__' | '/' | '/istituti' | '/mappa' | '/openday' | '/istituti/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  IstitutiRoute: typeof IstitutiRoute
+  IstitutiRoute: typeof IstitutiRouteWithChildren
+  MappaRoute: typeof MappaRoute
+  OpendayRoute: typeof OpendayRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/openday': {
+      id: '/openday'
+      path: '/openday'
+      fullPath: '/openday'
+      preLoaderRoute: typeof OpendayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mappa': {
+      id: '/mappa'
+      path: '/mappa'
+      fullPath: '/mappa'
+      preLoaderRoute: typeof MappaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/istituti': {
       id: '/istituti'
       path: '/istituti'
@@ -65,12 +107,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/istituti/': {
+      id: '/istituti/'
+      path: '/'
+      fullPath: '/istituti/'
+      preLoaderRoute: typeof IstitutiRouteImport
+      parentRoute: typeof IstitutiRoute
+    }
   }
 }
 
+interface IstitutiRouteChildren {
+  IstitutiRoute: typeof IstitutiRoute
+}
+
+const IstitutiRouteChildren: IstitutiRouteChildren = {
+  IstitutiRoute: IstitutiRoute,
+}
+
+const IstitutiRouteWithChildren = IstitutiRoute._addFileChildren(
+  IstitutiRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  IstitutiRoute: IstitutiRoute,
+  IstitutiRoute: IstitutiRouteWithChildren,
+  MappaRoute: MappaRoute,
+  OpendayRoute: OpendayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
