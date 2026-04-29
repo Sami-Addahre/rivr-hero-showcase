@@ -140,7 +140,19 @@ function OpenDayPage() {
   );
 }
 
-function EventRow({ e, compact = false }: { e: ReturnType<typeof useEv>; compact?: boolean }) {
+type Ev = {
+  id: string;
+  title: string;
+  start_date: string;
+  end_date: string | null;
+  location: string | null;
+  is_online: boolean;
+  online_link: string | null;
+  description: string | null;
+  school: string | { id: string; name: string; short_name?: string | null };
+};
+
+function EventRow({ e, compact = false }: { e: Ev; compact?: boolean }) {
   const d = new Date(e.start_date);
   const schoolName = typeof e.school === "object" ? e.school?.name : "Scuola";
   const schoolId = typeof e.school === "object" ? e.school?.id : (e.school as string);
@@ -168,7 +180,3 @@ function EventRow({ e, compact = false }: { e: ReturnType<typeof useEv>; compact
     </li>
   );
 }
-
-// helper type
-type Ev = { id: string; title: string; start_date: string; end_date: string | null; location: string | null; is_online: boolean; online_link: string | null; description: string | null; school: any };
-declare function useEv(): Ev;
