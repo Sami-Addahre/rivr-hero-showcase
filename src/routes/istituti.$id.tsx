@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
-import { fetchSchool, fetchEventsForSchool, fileUrl } from "@/lib/api";
+import { fetchSchool, fetchEventsForSchool, fileUrl, type SchoolEvent } from "@/lib/api";
 import { ArrowLeft, MapPin, Globe, Mail, Phone, Utensils, BedDouble, User, Hash, CalendarDays } from "lucide-react";
 import { lazy, Suspense } from "react";
 
@@ -111,7 +111,7 @@ function SchoolDetail() {
                 <p className="opacity-70">Nessun evento programmato.</p>
               ) : (
                 <ul className="space-y-3">
-                  {events.map((e) => {
+                  {events.map((e: SchoolEvent) => {
                     const d = new Date(e.start_date);
                     return (
                       <li key={e.id} className="flex gap-3 items-start border-t-2 border-foreground/20 pt-3 first:border-0 first:pt-0">
