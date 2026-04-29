@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
-import { fetchEvents } from "@/lib/api";
+import { fetchEvents, type SchoolEvent } from "@/lib/api";
 import { CalendarDays, MapPin, Wifi, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -19,12 +19,12 @@ const MONTHS = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio"
 const DAYS_SHORT = ["Lun","Mar","Mer","Gio","Ven","Sab","Dom"];
 
 function OpenDayPage() {
-  const events = Route.useLoaderData();
+  const events = Route.useLoaderData() as SchoolEvent[];
   const today = new Date();
   const [view, setView] = useState({ y: today.getFullYear(), m: today.getMonth() });
 
   const eventsByDay = useMemo(() => {
-    const map = new Map<string, typeof events>();
+    const map = new Map<string, SchoolEvent[]>();
     for (const e of events) {
       const d = new Date(e.start_date);
       const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
@@ -47,16 +47,16 @@ function OpenDayPage() {
   }, [view]);
 
   const upcoming = useMemo(
-    () => events.filter((e) => new Date(e.start_date).getTime() >= Date.now() - 86400000)
-      .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date)),
+    () => events.filter((e: SchoolEvent) => new Date(e.start_date).getTime() >= Date.now() - 86400000)
+      .sort((a: SchoolEvent, b: SchoolEvent) => +new Date(a.start_date) - +new Date(b.start_date)),
     [events]
   );
 
   const monthEvents = useMemo(
-    () => events.filter((e) => {
+    () => events.filter((e: SchoolEvent) => {
       const d = new Date(e.start_date);
       return d.getFullYear() === view.y && d.getMonth() === view.m;
-    }).sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date)),
+    }).sort((a: SchoolEvent, b: SchoolEvent) => +new Date(a.start_date) - +new Date(b.start_date)),
     [events, view]
   );
 
@@ -118,7 +118,7 @@ function OpenDayPage() {
                 <p className="opacity-70 text-sm">Nessun evento questo mese.</p>
               ) : (
                 <ul className="space-y-2">
-                  {monthEvents.map((e) => <EventRow key={e.id} e={e} />)}
+                  {monthEvents.map((e: SchoolEvent) => <EventRow key={e.id} e={e} />)}
                 </ul>
               )}
             </div>
@@ -130,7 +130,7 @@ function OpenDayPage() {
               <p className="opacity-70 text-sm">Nessun evento in arrivo.</p>
             ) : (
               <ul className="space-y-2">
-                {upcoming.slice(0, 8).map((e) => <EventRow key={e.id} e={e} compact />)}
+                {upcoming.slice(0, 8).map((e: SchoolEvent) => <EventRow key={e.id} e={e} compact />)}
               </ul>
             )}
           </aside>
