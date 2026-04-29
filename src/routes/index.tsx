@@ -101,7 +101,7 @@ function Home() {
           <div className="pop-card p-6">Nessun open day in programma al momento.</div>
         ) : (
           <div className="grid md:grid-cols-3 gap-5">
-            {upcoming.map((e) => {
+            {upcoming.map((e: SchoolEvent) => {
               const d = new Date(e.start_date);
               const schoolName = typeof e.school === "object" ? e.school?.name : "Scuola";
               return (
