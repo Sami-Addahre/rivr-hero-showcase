@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { ArrowRight, MapPin, CalendarDays, GraduationCap, Sparkles } from "lucide-react";
 import cloudBrain from "@/assets/cloud-brain.png";
-import { fetchSchools, fetchEvents } from "@/lib/api";
+import { fetchSchools, fetchEvents, type SchoolEvent } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -12,8 +12,8 @@ export const Route = createFileRoute("/")({
       fetchEvents().catch(() => []),
     ]);
     const upcoming = events
-      .filter((e) => new Date(e.start_date).getTime() >= Date.now())
-      .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
+      .filter((e: SchoolEvent) => new Date(e.start_date).getTime() >= Date.now())
+      .sort((a: SchoolEvent, b: SchoolEvent) => +new Date(a.start_date) - +new Date(b.start_date))
       .slice(0, 3);
     return { schoolsCount: schools.length, upcoming };
   },
