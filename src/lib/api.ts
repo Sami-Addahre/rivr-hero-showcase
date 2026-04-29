@@ -6,6 +6,17 @@ export type SchoolType = {
   description: string | null;
 };
 
+export type SchoolPhone = { id: string; number: string; label: string | null };
+export type SchoolEmail = { id: string; email: string; label: string | null };
+export type SchoolVideo = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  video_file: string | null;
+  youtube_id: string | null;
+  type: string | null;
+};
+
 export type School = {
   id: string;
   name: string;
@@ -24,6 +35,9 @@ export type School = {
   boarding: boolean;
   main_campus: boolean;
   position: { type: "Point"; coordinates: [number, number] } | null;
+  school_phones?: SchoolPhone[];
+  school_emails?: SchoolEmail[];
+  videos?: SchoolVideo[];
 };
 
 export type SchoolEvent = {
@@ -55,7 +69,7 @@ export const fetchSchools = () =>
 
 export const fetchSchool = (id: string) =>
   getJSON<School>(
-    `/items/schools/${id}?fields=*,type.id,type.name,type.description`
+    `/items/schools/${id}?fields=*,type.id,type.name,type.description,school_phones.id,school_phones.number,school_phones.label,school_emails.id,school_emails.email,school_emails.label,videos.id,videos.title,videos.description,videos.video_file,videos.youtube_id,videos.type`
   );
 
 export const fetchSchoolTypes = () =>
