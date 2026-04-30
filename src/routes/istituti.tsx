@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useMatch } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { fetchSchools, fetchSchoolTypes, fileUrl, type School, type SchoolType } from "@/lib/api";
 import { Search, MapPin, ArrowUpRight, Utensils, BedDouble } from "lucide-react";
@@ -20,9 +20,12 @@ export const Route = createFileRoute("/istituti")({
 });
 
 function IstitutiPage() {
+  const isListRoute = useMatch({ from: "/istituti", shouldThrow: false })?.pathname === "/istituti";
   const { schools, types } = Route.useLoaderData();
   const [q, setQ] = useState("");
   const [typeId, setTypeId] = useState<string>("all");
+
+  if (!isListRoute) return <Outlet />;
 
   const typeName = (s: School) =>
     typeof s.type === "object" ? s.type?.name : types.find((t: SchoolType) => t.id === s.type)?.name;
