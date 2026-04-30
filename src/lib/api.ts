@@ -1,5 +1,5 @@
 const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
-const BASE = typeof window !== "undefined" && import.meta.env.DEV ? "/directus" : EXTERNAL_BASE;
+const isBrowserDev = typeof window !== "undefined" && import.meta.env.DEV;
 
 export type SchoolType = {
   id: string;
@@ -54,34 +54,32 @@ export type SchoolEvent = {
 };
 
 export const fileUrl = (id: string | null | undefined, w = 400) =>
-  id ? `${BASE}/assets/${id}?width=${w}&quality=80` : null;
+  id ? `${EXTERNAL_BASE}/assets/${id}?width=${w}&quality=80` : null;
 
 async function getJSON<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
+  const url = isBrowserDev
+    ? `/api/directus?path=${encodeURIComponent(path)}`
+    : `${EXTERNAL_BASE}${path}`;
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`API ${path} ${res.status}`);
   const json = await res.json();
   return json.data as T;
 }
 
 export const fetchSchools = () =>
-  getJSON<School[]>(
-    "/items/schools?limit=-1&fields=*,type.id,type.name,type.description"
-  );
+  getJSON<School[]>("/items/schools?limit=-1&fields=*,type.id,type.name,type.description");
 
 export const fetchSchool = (id: string) =>
   getJSON<School>(
-    `/items/schools/${id}?fields=*,type.id,type.name,type.description,school_phones.id,school_phones.number,school_phones.label,school_emails.id,school_emails.email,school_emails.label,videos.id,videos.title,videos.description,videos.video_file,videos.youtube_id,videos.type`
+    `/items/schools/${id}?fields=*,type.id,type.name,type.description,school_phones.id,school_phones.number,school_phones.label,school_emails.id,school_emails.email,school_emails.label,videos.id,videos.title,videos.description,videos.video_file,videos.youtube_id,videos.type`,
   );
 
-export const fetchSchoolTypes = () =>
-  getJSON<SchoolType[]>("/items/school_types?limit=-1");
+export const fetchSchoolTypes = () => getJSON<SchoolType[]>("/items/school_types?limit=-1");
 
 export const fetchEvents = () =>
   getJSON<SchoolEvent[]>(
-    "/items/events?limit=-1&sort=start_date&fields=*,school.id,school.name,school.short_name"
+    "/items/events?limit=-1&sort=start_date&fields=*,school.id,school.name,school.short_name",
   );
 
 export const fetchEventsForSchool = (schoolId: string) =>
-  getJSON<SchoolEvent[]>(
-    `/items/events?limit=-1&sort=start_date&filter[school][_eq]=${schoolId}`
-  );
+  getJSON<SchoolEvent[]>(`/items/events?limit=-1&sort=start_date&filter[school][_eq]=${schoolId}`);
