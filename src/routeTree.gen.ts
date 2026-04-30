@@ -14,6 +14,7 @@ import { Route as MappaRouteImport } from './routes/mappa'
 import { Route as IstitutiRouteImport } from './routes/istituti'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IstitutiIdRouteImport } from './routes/istituti.$id'
+import { Route as ApiDirectusRouteImport } from './routes/api/directus'
 
 const OpendayRoute = OpendayRouteImport.update({
   id: '/openday',
@@ -40,12 +41,18 @@ const IstitutiIdRoute = IstitutiIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => IstitutiRoute,
 } as any)
+const ApiDirectusRoute = ApiDirectusRouteImport.update({
+  id: '/api/directus',
+  path: '/api/directus',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/istituti': typeof IstitutiRouteWithChildren
   '/mappa': typeof MappaRoute
   '/openday': typeof OpendayRoute
+  '/api/directus': typeof ApiDirectusRoute
   '/istituti/$id': typeof IstitutiIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/istituti': typeof IstitutiRouteWithChildren
   '/mappa': typeof MappaRoute
   '/openday': typeof OpendayRoute
+  '/api/directus': typeof ApiDirectusRoute
   '/istituti/$id': typeof IstitutiIdRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,34 @@ export interface FileRoutesById {
   '/istituti': typeof IstitutiRouteWithChildren
   '/mappa': typeof MappaRoute
   '/openday': typeof OpendayRoute
+  '/api/directus': typeof ApiDirectusRoute
   '/istituti/$id': typeof IstitutiIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/istituti' | '/mappa' | '/openday' | '/istituti/$id'
+  fullPaths:
+    | '/'
+    | '/istituti'
+    | '/mappa'
+    | '/openday'
+    | '/api/directus'
+    | '/istituti/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/istituti' | '/mappa' | '/openday' | '/istituti/$id'
-  id: '__root__' | '/' | '/istituti' | '/mappa' | '/openday' | '/istituti/$id'
+  to:
+    | '/'
+    | '/istituti'
+    | '/mappa'
+    | '/openday'
+    | '/api/directus'
+    | '/istituti/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/istituti'
+    | '/mappa'
+    | '/openday'
+    | '/api/directus'
+    | '/istituti/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +104,7 @@ export interface RootRouteChildren {
   IstitutiRoute: typeof IstitutiRouteWithChildren
   MappaRoute: typeof MappaRoute
   OpendayRoute: typeof OpendayRoute
+  ApiDirectusRoute: typeof ApiDirectusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IstitutiIdRouteImport
       parentRoute: typeof IstitutiRoute
     }
+    '/api/directus': {
+      id: '/api/directus'
+      path: '/api/directus'
+      fullPath: '/api/directus'
+      preLoaderRoute: typeof ApiDirectusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -135,6 +171,7 @@ const rootRouteChildren: RootRouteChildren = {
   IstitutiRoute: IstitutiRouteWithChildren,
   MappaRoute: MappaRoute,
   OpendayRoute: OpendayRoute,
+  ApiDirectusRoute: ApiDirectusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
