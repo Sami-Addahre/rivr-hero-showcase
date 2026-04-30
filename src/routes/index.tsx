@@ -72,7 +72,7 @@ function Home() {
               height={520}
               className="w-72 md:w-[28rem] animate-[float_6s_ease-in-out_infinite]"
             />
-            <div className="absolute -top-4 right-2 md:right-10 bg-pop-pink pop-border pop-shadow rounded-2xl px-4 py-2 font-display text-2xl rotate-6">
+            <div className="absolute -top-4 right-2 md:right-10 bg-pop-yellow pop-border pop-shadow rounded-2xl px-4 py-2 font-display text-2xl rotate-6">
               BOOM!
             </div>
             <div className="absolute bottom-0 -left-2 bg-pop-blue pop-border pop-shadow rounded-2xl px-4 py-2 font-display text-xl -rotate-6">
