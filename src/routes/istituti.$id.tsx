@@ -69,6 +69,45 @@ export const Route = createFileRoute("/istituti/$id")({
   }),
 });
 
+function SchoolDetailError({ error, reset }: { error: Error; reset: () => void }) {
+  const router = useRouter();
+
+  return (
+    <Layout>
+      <section className="max-w-3xl mx-auto px-4 py-16">
+        <div className="pop-card bg-pop-yellow p-6 md:p-8 text-center relative overflow-hidden">
+          <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-pop-red/30 halftone" />
+          <AlertTriangle className="relative mx-auto mb-3 w-12 h-12 text-pop-red" />
+          <h1 className="relative font-display text-4xl md:text-5xl mb-3">Errore nel caricamento</h1>
+          <p className="relative text-lg font-bold mb-2">Non sono riuscito ad aprire i dettagli della scuola.</p>
+          <p className="relative bg-card pop-border rounded-xl p-3 text-sm font-medium break-words">
+            {explainApiError(error)}
+          </p>
+          {import.meta.env.DEV && error.message && (
+            <pre className="relative mt-4 max-h-32 overflow-auto bg-foreground text-background pop-border rounded-xl p-3 text-left text-xs">
+              {error.message}
+            </pre>
+          )}
+          <div className="relative mt-6 flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => {
+                router.invalidate();
+                reset();
+              }}
+              className="inline-flex items-center gap-2 bg-pop-red text-white pop-border pop-shadow rounded-xl px-5 py-3 font-display text-lg"
+            >
+              <RefreshCw className="w-4 h-4" /> Riprova
+            </button>
+            <Link to="/istituti" className="inline-flex items-center gap-2 bg-card pop-border pop-shadow rounded-xl px-5 py-3 font-display text-lg">
+              <ArrowLeft className="w-4 h-4" /> Torna agli istituti
+            </Link>
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+}
+
 const TILE_BG = ["bg-pop-yellow", "bg-pop-pink", "bg-pop-blue"];
 
 function SchoolDetail() {
