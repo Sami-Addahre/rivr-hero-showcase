@@ -30,16 +30,12 @@ const SchoolsMap = lazy(() => import("@/components/SchoolsMap"));
 export const Route = createFileRoute("/istituti/$id")({
   component: SchoolDetail,
   loader: async ({ params }) => {
-    try {
-      const [school, events] = await Promise.all([
-        fetchSchool(params.id),
-        fetchEventsForSchool(params.id).catch(() => [] as SchoolEvent[]),
-      ]);
-      if (!school) throw notFound();
-      return { school, events };
-    } catch {
-      throw notFound();
-    }
+    const [school, events] = await Promise.all([
+      fetchSchool(params.id).catch(() => null),
+      fetchEventsForSchool(params.id).catch(() => [] as SchoolEvent[]),
+    ]);
+    if (!school) throw notFound();
+    return { school, events };
   },
   notFoundComponent: () => (
     <Layout>
