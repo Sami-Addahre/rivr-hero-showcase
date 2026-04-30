@@ -38,7 +38,9 @@ function Home() {
               <Sparkles className="w-3 h-3" /> Per chi fa la 3ª media
             </span>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] mb-5">
-              NON <span className="text-pop-red">SCERVELLARTI</span>,<br />
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                NON <span className="text-pop-red">SCERVELLARTI</span>,
+              </span>
               TI AIUTIAMO <span className="bg-foreground text-background px-2 inline-block -rotate-2">NOI!</span>
             </h1>
             <p className="text-lg md:text-xl font-medium text-foreground/80 max-w-lg mb-8">
@@ -62,7 +64,7 @@ function Home() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="absolute inset-0 m-auto w-72 h-72 md:w-96 md:h-96 rounded-full bg-pop-yellow halftone -z-10" />
+            <div className="absolute inset-0 m-auto w-72 h-72 md:w-96 md:h-96 rounded-full bg-pop-pink halftone -z-10" />
             <img
               src={brainBurst}
               alt="Cervello pop art con esplosione rosa"
