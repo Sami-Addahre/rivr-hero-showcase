@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { ArrowRight, MapPin, CalendarDays, GraduationCap, Sparkles } from "lucide-react";
 import brainBurst from "@/assets/brain-burst.png";
+import iconBook from "@/assets/icon-book.png";
+import iconPin from "@/assets/icon-pin.png";
+import iconCalendar from "@/assets/icon-calendar.png";
 import { fetchSchools, fetchEvents, type SchoolEvent } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
@@ -92,9 +95,33 @@ function Home() {
       </section>
 
       {/* COMING UP */}
+      {/* COSA TROVI QUI */}
+      <section className="max-w-7xl mx-auto px-4 mt-16">
+        <h2 className="font-display text-4xl md:text-5xl mb-6">COSA TROVI QUI</h2>
+        <div className="grid md:grid-cols-3 gap-5">
+          {[
+            { icon: iconBook, title: "Tutti gli istituti", desc: "Schede complete di ogni scuola superiore della Vallagarina: indirizzi, contatti, video.", to: "/istituti", color: "bg-pop-pink" },
+            { icon: iconPin, title: "Mappa interattiva", desc: "Trova al volo la scuola più vicina a casa tua e scopri come raggiungerla.", to: "/mappa", color: "bg-pop-blue" },
+            { icon: iconCalendar, title: "Open Day", desc: "Tutte le date per visitare le scuole, parlare con i prof e farti un'idea.", to: "/openday", color: "bg-pop-yellow" },
+          ].map((f) => (
+            <Link key={f.to} to={f.to} className="pop-card p-6 group">
+              <div className={`${f.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-4 group-hover:-rotate-6 transition-transform`}>
+                <img src={f.icon} alt="" className="w-10 h-10 object-contain" />
+              </div>
+              <div className="font-display text-2xl mb-2">{f.title}</div>
+              <p className="text-sm font-medium text-foreground/80">{f.desc}</p>
+              <div className="mt-4 inline-flex items-center gap-1 text-sm font-bold uppercase">Scopri <ArrowRight className="w-4 h-4" /></div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="max-w-7xl mx-auto px-4 mt-16">
         <div className="flex items-end justify-between mb-6">
-          <h2 className="font-display text-4xl md:text-5xl">📅 Prossimi Open Day</h2>
+          <h2 className="font-display text-4xl md:text-5xl flex items-center gap-3">
+            <img src={iconCalendar} alt="" className="w-12 h-12 object-contain" />
+            Prossimi Open Day
+          </h2>
           <Link to="/openday" className="font-bold uppercase text-sm underline underline-offset-4">Vedi tutti →</Link>
         </div>
         {upcoming.length === 0 ? (
