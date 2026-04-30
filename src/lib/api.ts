@@ -1,4 +1,5 @@
-const BASE = "https://made10.retescuolevallagarina.it";
+const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
+const BASE = typeof window !== "undefined" && import.meta.env.DEV ? "/directus" : EXTERNAL_BASE;
 
 export type SchoolType = {
   id: string;

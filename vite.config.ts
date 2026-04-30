@@ -6,4 +6,17 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig();
+export default defineConfig({
+  vite: {
+    server: {
+      proxy: {
+        "/directus": {
+          target: "https://made10.retescuolevallagarina.it",
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/directus/, ""),
+        },
+      },
+    },
+  },
+});
