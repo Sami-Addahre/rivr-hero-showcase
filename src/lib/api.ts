@@ -69,10 +69,25 @@ async function getJSON<T>(path: string): Promise<T> {
 export const fetchSchools = () =>
   getJSON<School[]>("/items/schools?limit=-1&fields=*,type.id,type.name,type.description");
 
-export const fetchSchool = (id: string) =>
-  getJSON<School>(
-    `/items/schools/${id}?fields=*,type.id,type.name,type.description,school_phones.id,school_phones.number,school_phones.label,school_emails.id,school_emails.email,school_emails.label,videos.id,videos.title,videos.description,videos.video_file,videos.youtube_id,videos.type`,
+export const fetchSchool = async (id: string): Promise<School> => {
+  // Base fetch with type relation (safe, used in list view too)
+  const base = await getJSON<School>(
+    `/items/schools/${id}?fields=*,type.id,type.name,type.description`,
   );
+  // Try to enrich with relations that may or may not exist
+  const [phones, emails, videos] = await Promise.all([
+    getJSON<SchoolPhone[]>(
+      `/items/school_phones?limit=-1&filter[school][_eq]=${id}&fields=id,number,label`,
+    ).catch(() => [] as SchoolPhone[]),
+    getJSON<SchoolEmail[]>(
+      `/items/school_emails?limit=-1&filter[school][_eq]=${id}&fields=id,email,label`,
+    ).catch(() => [] as SchoolEmail[]),
+    getJSON<SchoolVideo[]>(
+      `/items/videos?limit=-1&filter[school][_eq]=${id}&fields=id,title,description,video_file,youtube_id,type`,
+    ).catch(() => [] as SchoolVideo[]),
+  ]);
+  return { ...base, school_phones: phones, school_emails: emails, videos };
+};
 
 export const fetchSchoolTypes = () => getJSON<SchoolType[]>("/items/school_types?limit=-1");
 
