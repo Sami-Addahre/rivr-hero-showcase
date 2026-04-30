@@ -1,6 +1,17 @@
 const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
 const isBrowserDev = typeof window !== "undefined" && import.meta.env.DEV;
 
+export class ApiFetchError extends Error {
+  constructor(
+    public path: string,
+    public status: number,
+    public detail: string,
+  ) {
+    super(`API ${path} ${status}: ${detail}`);
+    this.name = "ApiFetchError";
+  }
+}
+
 export type SchoolType = {
   id: string;
   name: string;
@@ -61,7 +72,13 @@ async function getJSON<T>(path: string): Promise<T> {
     ? `/api/directus?path=${encodeURIComponent(path)}`
     : `${EXTERNAL_BASE}${path}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`API ${path} ${res.status}`);
+  if (!res.ok) {
+    const detail = await res
+      .json()
+      .then((body) => body?.message || body?.error || JSON.stringify(body))
+      .catch(() => res.statusText || "Risposta non valida dal server");
+    throw new ApiFetchError(path, res.status, detail);
+  }
   const json = await res.json();
   return json.data as T;
 }
@@ -98,3 +115,18 @@ export const fetchEvents = () =>
 
 export const fetchEventsForSchool = (schoolId: string) =>
   getJSON<SchoolEvent[]>(`/items/events?limit=-1&sort=start_date&filter[school][_eq]=${schoolId}`);
+
+export const explainApiError = (error: unknown) => {
+  if (error instanceof ApiFetchError) {
+    if (error.status === 404) return "La scuola richiesta non esiste o è stata rimossa.";
+    if (error.status >= 500) return "Il server dei dati non sta rispondendo correttamente.";
+    return `La richiesta ai dati è fallita: ${error.detail}`;
+  }
+
+  if (error instanceof TypeError) {
+    return "Non riesco a raggiungere il servizio dati. Controlla la connessione o riprova tra poco.";
+  }
+
+  if (error instanceof Error) return error.message;
+  return "Errore sconosciuto durante il caricamento dei dati.";
+};
