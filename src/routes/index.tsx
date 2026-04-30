@@ -39,9 +39,9 @@ function Home() {
             </span>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] mb-5">
               <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                NON <span className="text-pop-red">SCERVELLARTI</span>,
+                NON SCERVELLARTI
               </span>
-              TI AIUTIAMO <span className="bg-foreground text-background px-2 inline-block -rotate-2">NOI!</span>
+              TI AIUTIAMO NOI!
             </h1>
             <p className="text-lg md:text-xl font-medium text-foreground/80 max-w-lg mb-8">
               Tutte le scuole superiori della <strong>Vallagarina</strong> in un colpo solo:
@@ -50,7 +50,7 @@ function Home() {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/istituti"
-                className="inline-flex items-center gap-2 bg-pop-red text-white pop-border pop-shadow rounded-xl px-5 py-3 font-display text-xl tracking-wide hover:-translate-y-0.5 transition-transform"
+                className="inline-flex items-center gap-2 bg-pop-blue text-foreground pop-border pop-shadow rounded-xl px-5 py-3 font-display text-xl tracking-wide hover:-translate-y-0.5 transition-transform"
               >
                 <GraduationCap className="w-5 h-5" /> Esplora le scuole <ArrowRight className="w-5 h-5" />
               </Link>
