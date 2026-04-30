@@ -3,6 +3,7 @@ import { Layout } from "@/components/Layout";
 import { fetchSchools, fetchSchoolTypes, fileUrl, type School, type SchoolType } from "@/lib/api";
 import { Search, MapPin, ArrowUpRight, Utensils, BedDouble } from "lucide-react";
 import { useMemo, useState } from "react";
+import iconBook from "@/assets/icon-book.png";
 
 export const Route = createFileRoute("/istituti")({
   component: IstitutiPage,
@@ -44,7 +45,10 @@ function IstitutiPage() {
   return (
     <Layout>
       <section className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="font-display text-5xl md:text-6xl mb-2">🎓 Tutti gli Istituti</h1>
+        <h1 className="font-display text-5xl md:text-6xl mb-2 flex items-center gap-3">
+          <img src={iconBook} alt="" className="w-12 h-12 md:w-14 md:h-14 object-contain" />
+          Tutti gli Istituti
+        </h1>
         <p className="text-lg opacity-80 mb-6">
           {schools.length} scuole superiori in Vallagarina. Filtra per tipologia o cerca quella che ti interessa.
         </p>

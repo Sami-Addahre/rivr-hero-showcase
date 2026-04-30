@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { fetchEvents, type SchoolEvent } from "@/lib/api";
-import { CalendarDays, MapPin, Wifi, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Wifi, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
+import iconCalendar from "@/assets/icon-calendar.png";
 
 export const Route = createFileRoute("/openday")({
   component: OpenDayPage,
@@ -64,7 +65,8 @@ function OpenDayPage() {
     <Layout>
       <section className="max-w-7xl mx-auto px-4 py-10">
         <h1 className="font-display text-5xl md:text-6xl mb-2 flex items-center gap-3">
-          <CalendarDays className="w-10 h-10" /> Open Day
+          <img src={iconCalendar} alt="" className="w-12 h-12 md:w-14 md:h-14 object-contain" />
+          Open Day
         </h1>
         <p className="text-lg opacity-80 mb-6">
           Tutti gli appuntamenti per visitare le scuole. Clicca su un giorno per vedere i dettagli.
