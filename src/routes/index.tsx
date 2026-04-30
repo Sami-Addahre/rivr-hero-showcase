@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { ArrowRight, MapPin, CalendarDays, GraduationCap, Sparkles } from "lucide-react";
-import cloudBrain from "@/assets/cloud-brain.png";
+import brainBurst from "@/assets/brain-burst.png";
 import { fetchSchools, fetchEvents, type SchoolEvent } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
@@ -61,11 +61,11 @@ function Home() {
           <div className="relative flex justify-center">
             <div className="absolute inset-0 m-auto w-72 h-72 md:w-96 md:h-96 rounded-full bg-pop-yellow halftone -z-10" />
             <img
-              src={cloudBrain}
-              alt="Nuvola pop art con cervello confuso"
+              src={brainBurst}
+              alt="Cervello pop art con esplosione rosa"
               width={520}
               height={520}
-              className="w-72 md:w-[28rem] drop-shadow-[8px_8px_0_rgba(0,0,0,1)] animate-[float_6s_ease-in-out_infinite]"
+              className="w-72 md:w-[28rem] animate-[float_6s_ease-in-out_infinite]"
             />
             <div className="absolute -top-4 right-2 md:right-10 bg-pop-pink pop-border pop-shadow rounded-2xl px-4 py-2 font-display text-2xl rotate-6">
               BOOM!
