@@ -20,12 +20,10 @@ export const Route = createFileRoute("/istituti")({
 });
 
 function IstitutiPage() {
-  const isListRoute = useMatch({ from: "/istituti", shouldThrow: false })?.pathname === "/istituti";
+  const detailMatch = useMatch({ from: "/istituti/$id", shouldThrow: false });
   const { schools, types } = Route.useLoaderData();
   const [q, setQ] = useState("");
   const [typeId, setTypeId] = useState<string>("all");
-
-  if (!isListRoute) return <Outlet />;
 
   const typeName = (s: School) =>
     typeof s.type === "object" ? s.type?.name : types.find((t: SchoolType) => t.id === s.type)?.name;
@@ -44,6 +42,8 @@ function IstitutiPage() {
       );
     });
   }, [schools, q, typeId, types]);
+
+  if (detailMatch) return <Outlet />;
 
   return (
     <Layout>
