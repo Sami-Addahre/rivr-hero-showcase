@@ -1,12 +1,17 @@
 import { Link } from "@tanstack/react-router";
-import { Brain, Map, Calendar, GraduationCap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import logoCervello from "@/assets/logo-cervello.png";
+import iconHome from "@/assets/icon-home.png";
+import iconBook from "@/assets/icon-book.png";
+import iconPin from "@/assets/icon-pin.png";
+import iconCalendar from "@/assets/icon-calendar.png";
 
 const links = [
-  { to: "/", label: "Home", icon: Brain },
-  { to: "/istituti", label: "Istituti", icon: GraduationCap },
-  { to: "/mappa", label: "Mappa", icon: Map },
-  { to: "/openday", label: "Open Day", icon: Calendar },
+  { to: "/", label: "Home", icon: iconHome },
+  { to: "/istituti", label: "Istituti", icon: iconBook },
+  { to: "/mappa", label: "Mappa", icon: iconPin },
+  { to: "/openday", label: "Open Day", icon: iconCalendar },
 ] as const;
 
 export function Navbar() {
@@ -15,9 +20,11 @@ export function Navbar() {
     <header className="sticky top-0 z-[1000] bg-pop-yellow pop-border-thick border-x-0 border-t-0">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-full bg-pop-red pop-border flex items-center justify-center text-white -rotate-6 group-hover:rotate-0 transition-transform">
-            <Brain className="w-5 h-5" />
-          </div>
+          <img
+            src={logoCervello}
+            alt="Cervello"
+            className="w-12 h-12 object-contain -rotate-6 group-hover:rotate-0 transition-transform"
+          />
           <div className="leading-none">
             <div className="font-display text-2xl tracking-wide">NON SCERVELLARTI!</div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">Orientamento Vallagarina</div>
@@ -33,7 +40,7 @@ export function Navbar() {
               activeProps={{ className: "bg-foreground text-background pop-border" }}
               activeOptions={{ exact: to === "/" }}
             >
-              <Icon className="w-4 h-4" /> {label}
+              <img src={Icon} alt="" className="w-4 h-4 object-contain" /> {label}
             </Link>
           ))}
         </nav>
@@ -58,7 +65,7 @@ export function Navbar() {
               activeProps={{ className: "bg-foreground text-background" }}
               activeOptions={{ exact: to === "/" }}
             >
-              <Icon className="w-4 h-4" /> {label}
+              <img src={Icon} alt="" className="w-4 h-4 object-contain" /> {label}
             </Link>
           ))}
         </nav>

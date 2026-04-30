@@ -33,9 +33,24 @@
   --color-pop-blue: var(--pop-blue);
   --color-pop-red: var(--pop-red);
   --color-pop-cream: var(--pop-cream);
-  --font-display: "Bangers", "Impact", sans-serif;
-  --font-body: "Archivo Black", system-ui, sans-serif;
-  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Cossette Texte", "Bangers", "Impact", serif;
+  --font-body: "Cossette Texte", system-ui, serif;
+  --font-sans: "Cossette Texte", system-ui, serif;
+}
+
+@font-face {
+  font-family: "Cossette Texte";
+  src: url("/fonts/CossetteTexte-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cossette Texte";
+  src: url("/fonts/CossetteTexte-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -89,34 +104,25 @@
 }
 
 @layer utilities {
-  .pop-shadow {
-    box-shadow: 6px 6px 0 0 oklch(0.15 0.02 250);
-  }
-  .pop-shadow-lg {
-    box-shadow: 10px 10px 0 0 oklch(0.15 0.02 250);
-  }
-  .pop-shadow-sm {
-    box-shadow: 4px 4px 0 0 oklch(0.15 0.02 250);
-  }
-  .pop-border {
-    border: 3px solid oklch(0.15 0.02 250);
-  }
-  .pop-border-thick {
-    border: 4px solid oklch(0.15 0.02 250);
-  }
+  /* Bordi e ombre nere disattivati per look più morbido */
+  .pop-shadow { box-shadow: none; }
+  .pop-shadow-lg { box-shadow: none; }
+  .pop-shadow-sm { box-shadow: none; }
+  .pop-border { border: none; }
+  .pop-border-thick { border: none; }
   .halftone {
     background-image: radial-gradient(oklch(0.15 0.02 250) 1.5px, transparent 1.5px);
     background-size: 8px 8px;
   }
   .pop-card {
     background: var(--card);
-    border: 3px solid oklch(0.15 0.02 250);
-    box-shadow: 6px 6px 0 0 oklch(0.15 0.02 250);
+    border: none;
+    box-shadow: 0 4px 20px -8px rgba(0,0,0,0.15);
     border-radius: var(--radius);
   }
   .pop-card:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0 0 oklch(0.15 0.02 250);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,0.2);
     transition: all 0.15s ease-out;
   }
 }
