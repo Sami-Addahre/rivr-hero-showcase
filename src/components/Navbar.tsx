@@ -26,7 +26,7 @@ export function Navbar() {
             className="w-12 h-12 object-contain -rotate-6 group-hover:rotate-0 transition-transform"
           />
           <div className="leading-none">
-            <div className="font-display text-2xl tracking-wide">NON SCERVELLARTI!</div>
+            <div className="font-display text-2xl tracking-wide">TI AIUTIAMO NOI!</div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">Orientamento Vallagarina</div>
           </div>
         </Link>
