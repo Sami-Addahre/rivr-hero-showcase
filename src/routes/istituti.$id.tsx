@@ -1,6 +1,7 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import {
+  explainApiError,
   fetchSchool,
   fetchEventsForSchool,
   fileUrl,
@@ -22,6 +23,8 @@ import {
   CalendarDays,
   PlayCircle,
   ExternalLink,
+  AlertTriangle,
+  RefreshCw,
 } from "lucide-react";
 import { lazy, Suspense } from "react";
 
@@ -30,10 +33,8 @@ const SchoolsMap = lazy(() => import("@/components/SchoolsMap"));
 export const Route = createFileRoute("/istituti/$id")({
   component: SchoolDetail,
   loader: async ({ params }) => {
-    const [school, events] = await Promise.all([
-      fetchSchool(params.id).catch(() => null),
-      fetchEventsForSchool(params.id).catch(() => [] as SchoolEvent[]),
-    ]);
+    const school = await fetchSchool(params.id);
+    const events = await fetchEventsForSchool(params.id).catch(() => [] as SchoolEvent[]);
     if (!school) throw notFound();
     return { school, events };
   },
@@ -45,15 +46,7 @@ export const Route = createFileRoute("/istituti/$id")({
       </div>
     </Layout>
   ),
-  errorComponent: ({ error }) => (
-    <Layout>
-      <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <h1 className="font-display text-4xl mb-3">Ops, errore</h1>
-        <p className="opacity-80 mb-4">{error.message}</p>
-        <Link to="/istituti" className="underline font-bold">← Torna agli istituti</Link>
-      </div>
-    </Layout>
-  ),
+  errorComponent: SchoolDetailError,
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
