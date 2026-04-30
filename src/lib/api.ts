@@ -1,5 +1,5 @@
 const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
-const BASE = typeof window !== "undefined" && import.meta.env.DEV ? "/directus" : EXTERNAL_BASE;
+const isBrowserDev = typeof window !== "undefined" && import.meta.env.DEV;
 
 export type SchoolType = {
   id: string;
@@ -54,10 +54,11 @@ export type SchoolEvent = {
 };
 
 export const fileUrl = (id: string | null | undefined, w = 400) =>
-  id ? `${BASE}/assets/${id}?width=${w}&quality=80` : null;
+  id ? `${EXTERNAL_BASE}/assets/${id}?width=${w}&quality=80` : null;
 
 async function getJSON<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
+  const url = isBrowserDev ? `/api/directus?path=${encodeURIComponent(path)}` : `${EXTERNAL_BASE}${path}`;
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`API ${path} ${res.status}`);
   const json = await res.json();
   return json.data as T;
