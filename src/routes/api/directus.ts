@@ -5,7 +5,7 @@ const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
 export const Route = createFileRoute("/api/directus")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
+      GET: async ({ request }: { request: Request }) => {
         const requestUrl = new URL(request.url);
         const path = requestUrl.searchParams.get("path");
 
