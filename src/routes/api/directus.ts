@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 const EXTERNAL_BASE = "https://made10.retescuolevallagarina.it";
 
 export const Route = createFileRoute("/api/directus")({
+  // @ts-expect-error server handlers typing in this template
   server: {
     handlers: {
       GET: async ({ request }: { request: Request }) => {
